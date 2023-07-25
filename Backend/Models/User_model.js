@@ -14,6 +14,11 @@ const userSchema  = new Schema({
         type:String,
         require:true,
     },
+    username:{
+        type:String,
+        unique:true,
+        required:true
+    },
     phoneNumber:{
         type:String,
         unique:true,
@@ -36,6 +41,15 @@ const userSchema  = new Schema({
         type: Number,
         trim: true,
         default: 0,
+    },
+    Followers:{
+        type:Array,
+    },
+    Following:{
+        type:Array,
+    },
+    profile:{
+        type:String,
     },
     createDate:{
         type:Date, 
