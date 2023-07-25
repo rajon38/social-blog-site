@@ -1,5 +1,5 @@
 const express = require('express');
-const { getUser, registerController, loginController, forgotPasswordController, testController } = require('../Controller/User_controller');
+const { registerController, loginController, ProfileDetails, ProfileUpdate, RecoverResetPass, RecoverVerifyEmail, RecoverVerifyOTP } = require('../Controller/User_controller');
 const { requireSignIn, isAdmin } = require('../middleware/authMiddleware');
 
 
@@ -9,15 +9,19 @@ const userRouter= express.Router();
 
 
 
-userRouter.get('/',getUser)
+userRouter.post('/register',registerController);
+userRouter.post("/login", loginController);
+userRouter.get("/profile",requireSignIn,ProfileDetails);
+userRouter.post("/update",requireSignIn,ProfileUpdate);
+userRouter.get("/varifyEmail/:email",RecoverVerifyEmail);
+userRouter.get("/verifyOTP/:email/:otp",RecoverVerifyOTP);
+userRouter.post("/resetPass", RecoverResetPass);
 
-userRouter.post('/register',registerController)
-userRouter.post('/login',loginController)
+userRouter.get("/auth-check", requireSignIn, (req, res) => {
+    res.json({ ok: true });
+});
+userRouter.get("/admin-check", requireSignIn, isAdmin, (req, res) => {
+    res.json({ ok: true });
+});
 
-// forgot password
-userRouter.post('/forgot-password',forgotPasswordController)
-
-// test router
-userRouter.get('/test',requireSignIn, isAdmin,testController)
-
-  module.exports = userRouter;
+module.exports = userRouter;
