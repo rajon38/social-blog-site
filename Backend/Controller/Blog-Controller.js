@@ -1,4 +1,5 @@
 const Blogs = require('../Models/Blog_model'); // Import the Artwork model
+const userModel=require('../Models/User_model');
 
 // Create a new artwork
 // const createBlogs = async (req, res) => {
@@ -87,7 +88,7 @@ const deleteBlogs= async (req, res) => {
 //Like
 const like= async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const post = await Blogs.findById(req.params.id);
     if(!post.like.includes(req.user.id)){
           if(post.dislike.includes(req.user.id)){
                 await post.updateOne({$pull:{dislike:req.user.id}})
@@ -108,7 +109,7 @@ const like= async (req, res) => {
 //Dislike
 const dislike= async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const post = await Blogs.findById(req.params.id);
     if(!post.dislike.includes(req.user.id)){
           if(post.like.includes(req.user.id)){
                 await post.updateOne({$pull:{like:req.user.id}})
@@ -135,7 +136,7 @@ const comment= async (req, res) => {
           comment,
           profile
     }
-    const post = await Post.findById(postid);
+    const post = await Blogs.findById(postid);
     post.comments.push(comments);
     await post.save();
     res.status(200).json(post);
@@ -147,7 +148,7 @@ const comment= async (req, res) => {
 /// Get a Following user
 const following= async (req, res) => {
   // try {
-    const user = await User.findById(req.params.id);
+    const user = await userModel.findById(req.params.id);
     const followinguser = await Promise.all(
           user.Following.map((item)=>{
                 return User.findById(item)
@@ -169,7 +170,7 @@ const following= async (req, res) => {
 /// Get a Followers user
 const followers= async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await userModel.findById(req.params.id);
     const followersuser = await Promise.all(
           user.Followers.map((item)=>{
                 return User.findById(item)
