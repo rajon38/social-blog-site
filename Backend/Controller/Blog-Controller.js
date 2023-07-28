@@ -16,7 +16,7 @@ const userModel=require('../Models/User_model');
 const createBlogs = async (req, res) => {
   try {
     let {title , description, author, date, image} = req.body;
-    let newpost = await Blogs.create({
+    let newpost = new Blogs({
       title, description, author, date, image, user:req.user.id
     })
     const post = await newpost.save()

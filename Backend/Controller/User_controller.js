@@ -13,14 +13,14 @@ exports.registerController=async(req,res)=>{
        // 1. destructure name, email, password from req.body
        const{firstName,lastName,username,phoneNumber,email,password}=req.body;
        // 2. all fields require validation
-       if(!firstName.trim()){
+       if(!firstName){
           return res.send({message:"firststName is required"})
        }
-       if(!lastName.trim()){
+       if(!lastName){
           return res.send({message:"lastName is required"})
        }
-        if(!username.trim()){
-            return res.send({message:"lastName is required"})
+        if(!username){
+            return res.send({message:"usernsme is required"})
         }
        if(!email){
           return res.send({message:"email is required"})
