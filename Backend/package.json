@@ -59,6 +59,7 @@
     "mongoose": "^7.3.4",
     "ms": "^2.0.0",
     "negotiator": "^0.6.3",
+    "nodemailer": "^6.9.4",
     "nopt": "^1.0.10",
     "normalize-path": "^3.0.0",
     "object-assign": "^4.1.1",

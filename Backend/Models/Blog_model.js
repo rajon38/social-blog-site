@@ -15,11 +15,11 @@ const blogSchema = new mongoose.Schema({
   },
   author: {
     type: String,
-    required: true,
+    
   },
   date: {
     type: Date,
-    required: true,
+    
   },
   image: {
     type: String,
@@ -31,25 +31,26 @@ const blogSchema = new mongoose.Schema({
   dislike:{
     type:Array,
   },
-  comments:[
+ comments: [
     {
-              user:{
-                        type:mongoose.Schema.ObjectId,
-                        required:true
-              },
-              username:{
-                        type:String,
-                        required:true
-              },
-              profile:{
-                        type:String
-              },
-              comment:{
-                        type:String,
-                        required:true
-              }
-    }
-  ]
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+      },
+      username: {
+        type: String,
+        required: true,
+      },
+      profile: {
+        type: String,
+      },
+      comment: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
 });
 
 const blogs = mongoose.model('blogs', blogSchema);

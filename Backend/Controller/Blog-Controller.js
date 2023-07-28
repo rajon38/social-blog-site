@@ -1,42 +1,46 @@
 const Blogs = require('../Models/Blog_model'); // Import the Artwork model
-const userModel=require('../Models/User_model');
+const User = require('../Models/User_model');
+//const userModel=require('../Models/User_model');
 
-// Create a new artwork
-// const createBlogs = async (req, res) => {
-//   try {
-//     const { title, description, author, date, image } = req.body;
-//     const newArtwork = await Blogs.create({ title, description, author, date, image });
-//     res.status(201).json(newArtwork);
-//   } catch (error) {
-//     res.status(500).json({ error: 'An error occurred while creating the artwork.' });
-//   }
-// };
 
-// Create a new artwork
 const createBlogs = async (req, res) => {
+  // console.log('Request Body:', req.body);
+  // console.log('Authenticated User:', req.user);
   try {
-    let {title , description, author, date, image} = req.body;
+    let {title ,author, description,date, image} = req.body;
     let newpost = await Blogs.create({
-      title, description, author, date, image, user:req.user.id
+      title, description, author,date, image, user: req.user._id
+      
     })
+ 
+   
     const post = await newpost.save()
-    res.status(200).json(post)
+    res.status(200).json({
+      success: true,
+      message: 'Blog post created successfully',
+      data: post
+    });
   } catch (error) {
-     return res.status(500).json("Internal error occured")
+    console.log(error);
+    res.status(500).send({
+       success:false,
+       message:"Error in blog post",
+       error:error.message
+    })
   }
 };
 
-// Get all artworks
+// Get all blogs
 const getAllBlogs = async (req, res) => {
   try {
-    const blog = await Blogs.find();
+    const blog = await Blogs.find({});
     res.json(blog);
   } catch (error) {
     res.status(500).json({ error: 'An error occurred while retrieving the Blog.' });
   }
 };
 
-// Get a single artwork by ID
+// Get a single blog ID
 const getBlogById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -52,7 +56,7 @@ const getBlogById = async (req, res) => {
   }
 };
 
-// Update an artwork by ID
+// Update blog by ID
 const updateBlogs = async (req, res) => {
   try {
     const { id } = req.params;
@@ -69,7 +73,7 @@ const updateBlogs = async (req, res) => {
   }
 };
 
-// Delete an artwork by ID
+// Delete blog by ID
 const deleteBlogs= async (req, res) => {
   try {
     const { id } = req.params;
@@ -145,10 +149,10 @@ const comment= async (req, res) => {
   // }
 };
 
-/// Get a Following user
+// Get a Following user
 const following= async (req, res) => {
-  // try {
-    const user = await userModel.findById(req.params.id);
+  try {
+    const user = await User.findById(req.params.id);
     const followinguser = await Promise.all(
           user.Following.map((item)=>{
                 return User.findById(item)
@@ -162,10 +166,25 @@ const following= async (req, res) => {
     })
 
     res.status(200).json(followingList);
-  // } catch (error) {
-  //      return res.status(500).json("Internal server error")
-  // }
+  } catch (error) {
+       return res.status(500).json("Internal server error")
+  }
 };
+
+// follwinguser
+
+// const following=async(req,res)=>{
+//   try {
+//     if(req.params.id!=req.params.user){
+//       const user=await User.findById(req.params.id);
+//       const otherusr=await User.findById(req.body.user)
+//     }
+//   } catch (error) {
+    
+//   }
+// }
+
+
 
 /// Get a Followers user
 const followers= async (req, res) => {

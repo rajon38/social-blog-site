@@ -11,11 +11,11 @@ const blogsRouter= express.Router();
 
 
 blogsRouter.post('/create-blog', requireSignIn, BlogsController.createBlogs)
-blogsRouter.post('/update-blog/:id', requireSignIn, BlogsController.updateBlogs)
+blogsRouter.put('/update-blog/:id', requireSignIn, BlogsController.updateBlogs)
 blogsRouter.get('/getall-blogs', requireSignIn, BlogsController.getAllBlogs)
 blogsRouter.get('/blogs/:id', requireSignIn, BlogsController.getBlogById)
 
-// forgot password
+
 blogsRouter.post('/delete-blogs/:id', requireSignIn, BlogsController.deleteBlogs)
 blogsRouter.put('/:id/like', requireSignIn, BlogsController.like)
 blogsRouter.put('/:id/dislike', requireSignIn, BlogsController.dislike)
