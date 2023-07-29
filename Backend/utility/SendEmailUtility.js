@@ -3,25 +3,27 @@ var nodemailer = require('nodemailer');
 const SendEmailUtility= async (EmailTo, EmailText, EmailSubject) => {
 
     let transporter = nodemailer.createTransport({
-        host: 'mail.teamrabbil.com',
+        host: 'mail.rashedul.dev',
         port: 25,
         secure: false,
         auth: {
-            user: "info@teamrabbil.com",
-            pass: '~sR4[bhaC[Qs'
+            user: "info@rashedul.dev",
+            pass: '!170174Rajon'
         },tls: {
             rejectUnauthorized: false
         },
     });
 
+
     let mailOptions = {
-        from: 'Inventory <info@teamrabbil.com>',
+        from: 'Inventory Manager Rashedul <info@rashedul.dev>',
         to: EmailTo,
         subject: EmailSubject,
         text: EmailText
     };
 
-   return  await transporter.sendMail(mailOptions)
+
+    return  await transporter.sendMail(mailOptions)
 
 }
 module.exports=SendEmailUtility
