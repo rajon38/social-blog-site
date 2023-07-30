@@ -157,68 +157,160 @@ exports.ProfileDetails = async (req, res) => {
 
 
 //varify Email
-exports.RecoverVerifyEmail = async (req, res) => {
+// exports.RecoverVerifyEmail = async (req, res) => {
+//     try {
+//         // Email Account Query
+//         const email = req.params.email;
+//         const OTPCode = Math.floor(100000 + Math.random() * 900000);
+
+//         // Database First process
+//         const userCount = await userModel.countDocuments({ email: email });
+
+//         if (userCount > 0) {
+//             // OTP Insert
+
+//             // Database Second process
+//             await OTPSModel.create({ email: email, otp: OTPCode });
+
+//             // Email Send
+//             const sendEmailResult = await SendEmailUtility(email, `Your PIN Code is= ${OTPCode}`, "Inventory PIN Verification");
+
+//             return res.status(200).json({ status: "success", data: sendEmailResult });
+//         } else {
+//             return res.status(404).json({ status: "fail", data: "No User Found" });
+//         }
+//     } catch (error) {
+//         return res.status(500).json({ status: "fail", data: error.toString() });
+//     }
+// };
+exports.RecoverVerifyEmail=async (req,res)=>{
+    let email = req.params.email;
+    let OTPCode = Math.floor(100000 + Math.random() * 900000)
+    
     try {
         // Email Account Query
-        const email = req.params.email;
-        const OTPCode = Math.floor(100000 + Math.random() * 900000);
-
-        // Database First process
-        const userCount = await userModel.countDocuments({ email: email });
-
-        if (userCount > 0) {
+        let UserCount = (await userModel.aggregate([{$match: {email: email}}, {$count: "total"}]))
+        let ExpireIn = new Date().getTime() + 60*1000
+        if(UserCount.length>0){
             // OTP Insert
-
-            // Database Second process
-            await OTPSModel.create({ email: email, otp: OTPCode });
-
+            let CreateOTP = await OTPSModel.create({email: email, otp: OTPCode, expireIn:ExpireIn})
+            // Expire Otp Time
             // Email Send
-            const sendEmailResult = await SendEmailUtility(email, `Your PIN Code is= ${OTPCode}`, "Inventory PIN Verification");
-
-            return res.status(200).json({ status: "success", data: sendEmailResult });
-        } else {
-            return res.status(404).json({ status: "fail", data: "No User Found" });
+            let SendEmail = await SendEmailUtility(email,"Your PIN Code is= "+OTPCode,"Task Manager PIN Verification")
+            res.status(200).json({status: "success", data: SendEmail})
         }
-    } catch (error) {
-        return res.status(500).json({ status: "fail", data: error.toString() });
+        else{
+            res.status(200).json({status: "fail", data: "No User Found"})
+        }
+
+    }catch (e) {
+        res.status(200).json({status: "fail", data:e})
     }
-};
+
 
 
 //verifyOTP
+// exports.RecoverVerifyOTP = async (req, res) => {
+//     try {
+//         const email = req.params.email;
+//         const OTPCode = req.params.otp;
+//         const status = 0;
+//         const statusUpdate = 1;
+
+//         // Database First Process
+//         const OTPCount = await userModel.aggregate([
+//             { $match: { email: email, otp: OTPCode, status: status } },
+//             { $count: "total" }
+//         ]);
+
+//         if (OTPCount.length > 0) {
+//             // Second Process
+//             const OTPUpdate = await userModel.updateOne(
+//                 { email: email, otp: OTPCode, status: status },
+//                 { email: email, otp: OTPCode, status: statusUpdate }
+//             );
+
+//             return res.json({ status: "success", data: OTPUpdate });
+//         } else {
+//             return res.json({ status: "fail", data: "Invalid OTP Code" });
+//         }
+//     } catch (error) {
+//         return res.status(500).json({ status: "fail", data: error.toString() });
+//     }
+// };
 exports.RecoverVerifyOTP = async (req, res) => {
+    let email = req.params.email;
+    let OTPCode = req.params.otp;
+    let status = 0;
+    let statusUpdate = 1;
+  
     try {
-        const email = req.params.email;
-        const OTPCode = req.params.otp;
-        const status = 0;
-        const statusUpdate = 1;
-
-        // Database First Process
-        const OTPCount = await userModel.aggregate([
-            { $match: { email: email, otp: OTPCode, status: status } },
-            { $count: "total" }
-        ]);
-
-        if (OTPCount.length > 0) {
-            // Second Process
-            const OTPUpdate = await userModel.updateOne(
-                { email: email, otp: OTPCode, status: status },
-                { email: email, otp: OTPCode, status: statusUpdate }
-            );
-
-            return res.json({ status: "success", data: OTPUpdate });
+      let OTPCount = await OTPSModel.aggregate([
+        { $match: { email: email, otp: OTPCode, status: status } },
+        { $count: "total" },
+      ]);
+  
+      console.log(OTPCount.length + "TEST>>>>>>>>");
+  
+      if (OTPCount.length > 0) {
+        console.log("TEST>>>>>>>>rrrrr");
+  
+        let OTPObject = await OTPSModel.findOne({ email: email, otp: OTPCode, status: status });
+  
+        if (new Date().getTime() <= OTPObject.expireIn) {
+          let OTPUpdate = await OTPSModel.updateOne(
+            { email: email, otp: OTPCode, status: status },
+            {
+              email: email,
+              otp: OTPCode,
+              status: statusUpdate,
+            }
+          );
+  
+          res.status(200).json({ status: "success", data: OTPUpdate });
         } else {
-            return res.json({ status: "fail", data: "Invalid OTP Code" });
+          res.status(200).json({ status: "fail", data: "OTP Code expired" });
         }
-    } catch (error) {
-        return res.status(500).json({ status: "fail", data: error.toString() });
+      } else {
+        res.status(200).json({ status: "fail", data: "Invalid OTP Code" });
+      }
+    } catch (e) {
+      res.status(200).json({ status: "fail", data: e });
     }
-};
-
+  };
+  
 
 
 
 //resetPass
+// exports.RecoverResetPass=async (req,res)=>{
+
+//     let email = req.body['email'];
+//     let OTPCode = req.body['OTP'];
+//     let NewPass =  req.body['password'];
+//     let statusUpdate=1;
+
+//     try {
+//         // Database First Process
+//         let OTPUsedCount = await OTPSModel.aggregate([{$match: {email: email, otp: OTPCode, status: statusUpdate}}, {$count: "total"}])
+
+//         if (OTPUsedCount.length>0) {
+//             // Database Second Process
+//             let PassUpdate = await userModel.updateOne({email: email},{password: NewPass})
+//             return {status: "success", data: PassUpdate}
+//         }
+
+//         else {
+//             return {status: "fail", data: "Invalid Request"}
+//         }
+//     }
+
+
+//     catch (e) {
+//         return {status: "fail", data: e.toString()}
+//     }
+
+// }
 exports.RecoverResetPass=async (req,res)=>{
 
     let email = req.body['email'];
@@ -227,26 +319,26 @@ exports.RecoverResetPass=async (req,res)=>{
     let statusUpdate=1;
 
     try {
-        // Database First Process
         let OTPUsedCount = await OTPSModel.aggregate([{$match: {email: email, otp: OTPCode, status: statusUpdate}}, {$count: "total"}])
-
+       
         if (OTPUsedCount.length>0) {
-            // Database Second Process
-            let PassUpdate = await userModel.updateOne({email: email},{password: NewPass})
-            return {status: "success", data: PassUpdate}
-        }
-
-        else {
-            return {status: "fail", data: "Invalid Request"}
+            let PassUpdate = await userModel.updateOne({email: email}, {
+                password: NewPass
+            })
+            res.status(200).json({status: "success", data: PassUpdate})
+        } else {
+            res.status(200).json({status: "fail", data: "Invalid Request"})
         }
     }
-
-
     catch (e) {
-        return {status: "fail", data: e.toString()}
+        res.status(200).json({status: "fail", data:e})
     }
-
 }
+
+
+
+
+
 
 //Following
 exports.Following = async (req, res) => {
@@ -325,6 +417,6 @@ exports.FollowUser = async (req,res)=>{
 
         res.status(200).json(filteruser)
     } catch (error) {
-
+        
     }
 }
