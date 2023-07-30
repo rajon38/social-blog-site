@@ -92,15 +92,15 @@ const deleteBlogs= async (req, res) => {
 const like= async (req, res) => {
     try {
         const post = await Blogs.findById(req.params.id);
-        if(!post.like.includes(req.user.id)){
-            if(post.dislike.includes(req.user.id)){
-                await post.updateOne({$pull:{dislike:req.user.id}})
+        if(!post.like.includes(req.user._id)){
+            if(post.dislike.includes(req.user._id)){
+                await post.updateOne({$pull:{dislike:req.user._id}})
             }
-            await post.updateOne({$push:{like:req.user.id}})
+            await post.updateOne({$push:{like:req.user._id}})
             return res.status(200).json("Post has been liked")
 
         }else{
-            await post.updateOne({$pull:{like:req.user.id}});
+            await post.updateOne({$pull:{like:req.user._id}});
             return res.status(200).json("Post has been unlike")
         }
 
@@ -113,14 +113,14 @@ const like= async (req, res) => {
 const dislike= async (req, res) => {
     try {
         const post = await Blogs.findById(req.params.id);
-        if(!post.dislike.includes(req.user.id)){
-            if(post.like.includes(req.user.id)){
-                await post.updateOne({$pull:{like:req.user.id}})
+        if(!post.dislike.includes(req.user._id)){
+            if(post.like.includes(req.user._id)){
+                await post.updateOne({$pull:{like:req.user._id}})
             }
-            await post.updateOne({$push:{dislike:req.user.id}})
+            await post.updateOne({$push:{dislike:req.user._id}})
             return res.status(200).json("Post has been disliked")
         }else{
-            await post.updateOne({$pull:{dislike:req.user.id}});
+            await post.updateOne({$pull:{dislike:req.user._id}});
             return res.status(200).json("Post has been unlike")
         }
 
@@ -130,23 +130,56 @@ const dislike= async (req, res) => {
 };
 
 //Comment
-const comment= async (req, res) => {
-    // try {
-    const {comment , postid , profile} = req.body;
-    const comments={
-        user:req.user.id,
-        username:req.user.username,
-        comment,
-        profile
+const commentPost = async (req, res) => {
+    try {
+        const { comment } = req.body;
+        const postId = req.params.id;
+
+        // Validate the required field in the request body
+        if (!comment) {
+            return res.status(400).json("The 'comment' field is required.");
+        }
+
+        // Additional validation for the length of the comment
+        if (comment.length < 3 || comment.length > 500) {
+            return res
+                .status(400)
+                .json("The 'comment' field length must be between 3 and 500 characters.");
+        }
+
+        // Fetch the user information from the database
+        const user = await User.findById(req.user._id);
+
+        if (!user) {
+            return res.status(404).json("User not found.");
+        }
+
+        const comments = {
+            user: req.user._id,
+            username: user.username,
+            profile: user.profile,
+            comment,
+        };
+
+        // Find the blog post by its ID
+        const post = await Blogs.findById(postId);
+
+        if (!post) {
+            return res.status(404).json("Blog post not found.");
+        }
+
+        // Add the comment to the post's comments array and save the post
+        post.comments.push(comments);
+        await post.save();
+
+        // Respond with the updated post (including the new comment)
+        res.status(200).json(post);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json("Internal server error");
     }
-    const post = await Blogs.findById(postid);
-    post.comments.push(comments);
-    await post.save();
-    res.status(200).json(post);
-    // } catch (error) {
-    //       return res.status(500).json("Internal server error")
-    // }
 };
+
 
 // Get a Following user
 const following= async (req, res) => {
@@ -188,7 +221,7 @@ const following= async (req, res) => {
 /// Get a Followers user
 const followers= async (req, res) => {
     try {
-        const user = await userModel.findById(req.params.id);
+        const user = await User.findById(req.params.id);
         const followersuser = await Promise.all(
             user.Followers.map((item)=>{
                 return User.findById(item)
@@ -220,7 +253,7 @@ module.exports = {
     deleteBlogs,
     like,
     dislike,
-    comment,
+    commentPost,
     following,
     followers,
 };
