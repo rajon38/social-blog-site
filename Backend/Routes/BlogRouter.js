@@ -16,10 +16,10 @@ blogsRouter.get('/getall-blogs', requireSignIn, BlogsController.getAllBlogs)
 blogsRouter.get('/blogs/:id', requireSignIn, BlogsController.getBlogById)
 
 // forgot password
-blogsRouter.post('/delete-blogs/:id', requireSignIn, BlogsController.deleteBlogs)
+blogsRouter.get('/delete-blogs/:id', requireSignIn, BlogsController.deleteBlogs)
 blogsRouter.put('/:id/like', requireSignIn, BlogsController.like)
 blogsRouter.put('/:id/dislike', requireSignIn, BlogsController.dislike)
-blogsRouter.put('/comment/post', requireSignIn, BlogsController.comment)
+blogsRouter.post('/:id/comment/post', requireSignIn, BlogsController.commentPost)
 blogsRouter.get('/following/:id', requireSignIn, BlogsController.following)
 blogsRouter.get('/followers/:id', requireSignIn, BlogsController.followers)
 

@@ -251,25 +251,25 @@ exports.RecoverResetPass=async (req,res)=>{
 //Following
 exports.Following = async (req, res) => {
     try {
-        if (req.params.id !== req.body.user) {
+        if (req.params.id !== req.user._id) {
             const user = await userModel.findById(req.params.id);
-            const otheruser = await userModel.findById(req.body.user);
+            const currentUser = await userModel.findById(req.user._id);
 
             if (!user) {
                 return res.status(404).json("User not found");
             }
 
-            if (!otheruser) {
+            if (!currentUser) {
                 return res.status(404).json("Other user not found");
             }
 
             if (!user.Followers.includes(req.body.user)) {
-                await user.updateOne({ $push: { Followers: req.body.user } });
-                await otheruser.updateOne({ $push: { Following: req.params.id } });
+                await user.updateOne({ $push: { Followers: req.user._id } });
+                await currentUser.updateOne({ $push: { Following: req.params.id } });
                 return res.status(200).json("User has followed");
             } else {
-                await user.updateOne({ $pull: { Followers: req.body.user } });
-                await otheruser.updateOne({ $pull: { Following: req.params.id } });
+                await user.updateOne({ $pull: { Followers: req.user._id } });
+                await currentUser.updateOne({ $pull: { Following: req.params.id } });
                 return res.status(200).json("User has Unfollowed");
             }
         } else {
