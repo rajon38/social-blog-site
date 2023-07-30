@@ -3,18 +3,6 @@ const User = require('../Models/User_model');
 
 
 const createBlogs = async (req, res) => {
-<<<<<<< HEAD
-  try {
-    let {title , description, author, date, image} = req.body;
-    let newpost = new Blogs({
-      title, description, author, date, image, user:req.user.id
-    })
-    const post = await newpost.save()
-    res.status(200).json(post)
-  } catch (error) {
-     return res.status(500).json("Internal error occured")
-  }
-=======
     // console.log('Request Body:', req.body);
     // console.log('Authenticated User:', req.user);
     try {
@@ -39,7 +27,6 @@ const createBlogs = async (req, res) => {
             error:error.message
         })
     }
->>>>>>> f1f891f6cca537cedf5f794ccf54195a063e0299
 };
 
 // Get all blogs
