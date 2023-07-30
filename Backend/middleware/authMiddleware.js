@@ -2,6 +2,7 @@ const jwt =require("jsonwebtoken");
 const userModel=require('../Models/User_model');
 
 // protecting routes
+<<<<<<< HEAD
 exports.requireSignIn= (req,res,next)=>{
    const authHeader = req.headers.token;
       if(authHeader){
@@ -27,6 +28,20 @@ exports.requireSignIn= (req,res,next)=>{
    // } catch (error) {
    //    console.log(error);
    // }
+=======
+exports.requireSignIn=(req,res,next)=>{
+    const authHeader = req.headers.token;
+    if(authHeader){
+        const token = authHeader;
+        jwt.verify(token , process.env.JWT_SECRET , (err , user)=>{
+            if(err) return res.status(400).json("Some error occured");
+            req.user = user;
+            next();
+        } )
+    }else{
+        return res.status(400).json("Access token is not valid")
+    }
+>>>>>>> f1f891f6cca537cedf5f794ccf54195a063e0299
 }
 
 // admin access

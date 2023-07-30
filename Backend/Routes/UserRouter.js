@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerController, loginController, ProfileDetails, ProfileUpdate, RecoverResetPass, RecoverVerifyEmail, RecoverVerifyOTP } = require('../Controller/User_controller');
+const { registerController, loginController, ProfileDetails, ProfileUpdate, RecoverResetPass, RecoverVerifyEmail, RecoverVerifyOTP, Following, FollowingPost, FollowUser } = require('../Controller/User_controller');
 const { requireSignIn, isAdmin } = require('../middleware/authMiddleware');
 
 
@@ -16,6 +16,11 @@ userRouter.post("/update",requireSignIn,ProfileUpdate);
 userRouter.get("/varifyEmail/:email",RecoverVerifyEmail);
 userRouter.get("/verifyOTP/:email/:otp",RecoverVerifyOTP);
 userRouter.post("/resetPass", RecoverResetPass);
+
+
+userRouter.put("/following/:id",requireSignIn,Following)
+userRouter.get("/all/user/:id",FollowUser);
+userRouter.get("/flw/:id",requireSignIn,FollowingPost)
 
 userRouter.get("/auth-check", requireSignIn, (req, res) => {
     res.json({ ok: true });

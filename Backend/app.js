@@ -9,6 +9,7 @@ const rateLimiter = require("express-rate-limit");
 
 const morgan = require('morgan');
 const userRouter = require("./Routes/UserRouter");
+const blogRouter = require("./Routes/BlogRouter");
 
 
 
@@ -35,6 +36,7 @@ app.use(limiter);
 
 
 app.use('/api/v1/users',userRouter)
+app.use('/api/v1/blogs',blogRouter)
 
 
 //client-error handeling

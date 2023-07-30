@@ -22,7 +22,10 @@
     "nodemailer": "^6.9.4",
     "parseurl": "^1.3.3",
     "path-to-regexp": "^0.1.7",
+<<<<<<< HEAD
     "range-parser": "^1.2.1",
+=======
+>>>>>>> f1f891f6cca537cedf5f794ccf54195a063e0299
     "raw-body": "^2.5.1",
     "readdirp": "^3.6.0",
     "safe-buffer": "^5.2.1",
@@ -36,7 +39,10 @@
   },
   "scripts": {
     "start": "nodemon server.js",
+<<<<<<< HEAD
     "dev": "nodemon server.js",
+=======
+>>>>>>> f1f891f6cca537cedf5f794ccf54195a063e0299
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
+    <list default="true" id="864c5bf5-dbb4-48bd-91a5-16f2aaaf1a43" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+=======
     <list default="true" id="864c5bf5-dbb4-48bd-91a5-16f2aaaf1a43" name="Changes" comment="" />
+>>>>>>> 9458b8dbdcc3921f24ebd2c7c0b3f8c0e1dbe2b0
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,6 +31,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< HEAD
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;rajon&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/USER/OneDrive/Desktop/New folder (4)/social-blog-site&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\USER\OneDrive\Desktop\New folder (4)\social-blog-site" />
+      <recent name="C:\Users\USER\OneDrive\Desktop\New folder (4)\social-blog-site\Backend" />
+      <recent name="C:\Users\USER\OneDrive\Desktop\New folder (4)\social-blog-site\Backend\Routes" />
+      <recent name="C:\Users\USER\OneDrive\Desktop\New folder (4)\social-blog-site\Backend\Models" />
+      <recent name="C:\Users\USER\OneDrive\Desktop\New folder (4)\social-blog-site\Backend\Controller" />
+=======
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -43,6 +72,7 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\USER\OneDrive\Desktop\New folder (4)\social-blog-site" />
       <recent name="C:\Users\USER\OneDrive\Desktop\New folder (4)\social-blog-site\Backend\utility" />
+>>>>>>> 9458b8dbdcc3921f24ebd2c7c0b3f8c0e1dbe2b0
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -55,6 +85,12 @@
       <updated>1690263911743</updated>
       <workItem from="1690263913804" duration="373000" />
       <workItem from="1690291532854" duration="6179000" />
+<<<<<<< HEAD
+      <workItem from="1690302930504" duration="838000" />
+      <workItem from="1690473022963" duration="607000" />
+      <workItem from="1690550134103" duration="1504000" />
+=======
+>>>>>>> 9458b8dbdcc3921f24ebd2c7c0b3f8c0e1dbe2b0
     </task>
     <servers />
   </component>
