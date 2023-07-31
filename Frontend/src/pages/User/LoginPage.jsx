@@ -1,14 +1,14 @@
 import  {Fragment, lazy, Suspense} from 'react';
 import LazyLoader from "../../components/Loader/LazyLoader.jsx";
-const Home =lazy(() => import('../../components/Dashboard/Home.jsx'));
-const DashboardPage = () => {
+const Login =lazy(() => import('../../components/User/Login.jsx'));
+const LoginPage = () => {
     return (
         <Fragment>
             <Suspense fallback={<LazyLoader/>}>
-                <Home/>
+                <Login/>
             </Suspense>
         </Fragment>
     );
 };
 
-export default DashboardPage;
+export default LoginPage;

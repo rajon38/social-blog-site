@@ -66,7 +66,7 @@ const VerifyOTP = () => {
                   <p>A 6 Digit verification code has been sent to your email address. </p>
                   <ReactCodeInput onChange={handleOtpChange} inputStyle={defaultInputStyle} fields={6} />
                   <br /> <br />
-                  <button onClick={handleSubmitOtp} className="btn w-100 animated fadeInUp float-end btn-primary">
+                  <button onClick={handleSubmitOtp} className="btn w-100 animated fadeInUp float-end btn-success">
                     Next
                   </button>
                 </div>

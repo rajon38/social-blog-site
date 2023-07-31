@@ -25,7 +25,8 @@ const Login = () => {
 
             <div className="container">
                 <div className="row d-flex justify-content-center">
-                    <div className="col-md-7 col-lg-12 center-screen">
+                    <div className="col-md-7 col-lg-6 center-screen">
+                        <h2>Welcome to Journal Wheel</h2>
                         <div className="card w-90  p-4">
                             <div className="card-body">
                                 <h3>SIGN IN</h3>

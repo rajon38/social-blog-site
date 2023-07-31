@@ -24,7 +24,7 @@ const SendOTP = () => {
         <Fragment>
             <div className="container">
                 <div className="row d-flex justify-content-center">
-                    <div className="col-md-7 col-lg-12 center-screen">
+                    <div className="col-md-7 col-lg-6 center-screen">
                         <div className="card w-100">
                             <div className="card-body text-start">
                                 <h4>EMAIL ADDRESS</h4>

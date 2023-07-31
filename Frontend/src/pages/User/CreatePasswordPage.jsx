@@ -1,6 +1,6 @@
 import  { lazy, Suspense} from 'react';
-import LazyLoader from "../components/Loader/LazyLoader.jsx";
-const CreatePassword =lazy(() => import('../components/User/CreatePassword.jsx'));
+import LazyLoader from "../../components/Loader/LazyLoader.jsx";
+const CreatePassword =lazy(() => import('../../components/User/CreatePassword.jsx'));
 const CreatePasswordPage = () => {
     return (
         <Suspense fallback={<LazyLoader/>}>
