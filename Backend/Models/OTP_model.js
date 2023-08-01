@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const  mongoose=require('mongoose');
 const OTPSchema=new mongoose.Schema({
     email:{type:String},
@@ -8,3 +9,25 @@ const OTPSchema=new mongoose.Schema({
 const OTPSModel=mongoose.model('otps',OTPSchema);
 module.exports=OTPSModel
 
+=======
+// const  mongoose=require('mongoose');
+// const OTPSchema=new mongoose.Schema({
+//     email:{type:String},
+//     otp:{type:String},
+//     status:{type:Number,default:0},
+//     createdDate:{type:Date,default:Date.now()}
+// },{versionKey:false});
+// const OTPSModel=mongoose.model('otps',OTPSchema);
+// module.exports=OTPSModel
+
+const  mongoose=require('mongoose');
+const OTPSchema=mongoose.Schema({
+    email:{type:String},
+    otp:{type:String},
+    status:{type:Number,default:0},
+    expireIn:{type:Number,default:0},
+    createdDate:{type:Date,default:Date.now()}
+},{versionKey:false});
+const OTPSModel=mongoose.model('otps',OTPSchema);
+module.exports=OTPSModel
+>>>>>>> 42add93a4678b389250aa93f14f0077dda756cf8
