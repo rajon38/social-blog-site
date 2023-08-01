@@ -8,6 +8,7 @@ import CreatePasswordPage from "./pages/User/CreatePasswordPage.jsx";
 import Page404 from "./pages/NotFound/Page404.jsx";
 import {getToken} from "./helper/SessionHelper.js";
 import DashboardPage from "./pages/Dashboard/DashboardPage.jsx";
+import Profile from "./pages/Profile/Profile.jsx";
 
 const App = () => {
     if(getToken()){
@@ -16,6 +17,7 @@ const App = () => {
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={<DashboardPage/>}/>
+                        <Route path="/profile" element={<Profile/>}/>
                     </Routes>
                 </BrowserRouter>
             </Fragment>
