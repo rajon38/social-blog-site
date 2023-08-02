@@ -105,10 +105,13 @@ exports.loginController = async(req,res)=>{
         res.status(200).send({
             success:true,
             message:"login successful",
-            user:{
-                name:user.name,
+            data:{
                 email:user.email,
-
+                firstName: user.firstName,
+                lastName: user.lastName,
+                username: user.username,
+                phoneNumber: user.phoneNumber,
+                profile: user.profile,
                 role:user.role
             },
             token

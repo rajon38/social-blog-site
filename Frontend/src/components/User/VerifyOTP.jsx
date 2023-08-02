@@ -1,7 +1,7 @@
 import {Fragment, useState, useEffect} from 'react';
 import ReactCodeInput from "react-code-input";
 import {ErrorToast} from "../../helper/FormHelper";
-import {RecoverVerifyOTPRequest} from "../../APIRequest/UserAPI";
+import {RecoverVerifyOTPRequest} from "../../APIRequest/userAPI.js";
 import {getEmail} from "../../helper/SessionHelper";
 import {useNavigate} from "react-router-dom";
 import Countdown from 'react-countdown';
