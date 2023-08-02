@@ -1,6 +1,6 @@
 import  {Fragment, useRef} from 'react';
 import {ErrorToast, IsEmail} from "../../helper/FormHelper";
-import {RecoverVerifyEmailRequest} from "../../APIRequest/UserAPI";
+import {RecoverVerifyEmailRequest} from "../../APIRequest/userAPI.js";
 import {useNavigate} from "react-router-dom";
 
 const SendOTP = () => {
