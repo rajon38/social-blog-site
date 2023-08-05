@@ -1,5 +1,5 @@
 import "./profile.css"
-import Navbar from "../../components/Navber/Navbar.jsx";
+import Navbar from "../../components/Navber/NavbarContainer.jsx";
 import LazyLoader from "../../components/Loader/LazyLoader.jsx";
 import {Fragment, lazy, Suspense} from "react";
 import {useSelector} from "react-redux";

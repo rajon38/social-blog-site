@@ -4,8 +4,7 @@
           margin: auto;
           justify-content: space-between;
           background-color: white;
-          border-bottom-left-radius: 13px;
-          border-bottom-right-radius: 13px;
+          padding: 15px;
 }
 .searchInputContainer{
           display: flex;
