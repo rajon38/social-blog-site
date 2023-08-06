@@ -2,7 +2,9 @@ import {createSlice} from "@reduxjs/toolkit";
 export const profileSlice=createSlice({
     name:'profile',
     initialState:{
-        value:[]
+        value:[],
+        Followers: [],
+        Following: []
     },
     reducers:{
         SetProfile:(state,action)=>{

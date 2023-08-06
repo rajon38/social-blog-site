@@ -75,6 +75,8 @@ export async function GetProfileDetails(){
         store.dispatch(HideLoader())
         if(res.status===200){
             store.dispatch(SetProfile(res.data['data'][0]))
+            store.dispatch(SetProfile(res.data["Followers"][0]))
+            store.dispatch(SetProfile(res.data["Following"][0]))
         }
         else{
             ErrorToast("Something Went Wrong")
