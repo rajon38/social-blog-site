@@ -205,3 +205,29 @@ export async function RecoverResetPassRequest(email,OTP,password){
         return false;
     }
 }
+
+export function CreateNewBlog(title,author,description,date,image){
+
+
+    store.dispatch(ShowLoader())
+
+    let URL=BaseURL+"/blogs/create-blog";
+    let PostBody={"title":title,"author":author,"description":description,"image":image,"date":date}
+
+    return axios.post(URL,PostBody,AxiosHeader).then((res)=>{
+        store.dispatch(HideLoader())
+        if(res.status===200){
+            SuccessToast("Blog post created successfully")
+            return true;
+        }
+        else{
+            ErrorToast("Something Went Wrong")
+            return false;
+        }
+
+    }).catch((err)=>{
+        ErrorToast("Something Went Wrong")
+        store.dispatch(HideLoader())
+        return false;
+    })
+}

@@ -3,13 +3,27 @@ class SessionHelper{
         localStorage.setItem("token",token)
     }
     getToken(){
-        return localStorage.getItem("token")
+        try{
+            return localStorage.getItem("token")
+        }
+        catch(err){
+            console.log("Error getting token")
+            return false
+        }
+        
     }
     setUserDetails(UserDetails){
         localStorage.setItem("UserDetails",JSON.stringify(UserDetails))
     }
     getUserDetails(){
-        return JSON.parse(localStorage.getItem("UserDetails"))
+        try{
+            // return localStorage.getItem("token")
+            return JSON.parse(localStorage.getItem("UserDetails"))
+        }
+        catch(err){
+            console.log("Error getting token")
+            return false
+        }
     }
     setEmail(Email){
         localStorage.setItem("Email",Email)
