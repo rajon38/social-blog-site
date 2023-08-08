@@ -14,10 +14,20 @@
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
     "bootstrap": "^5.3.1",
+<<<<<<< HEAD
+    "export-from-json": "^1.7.3",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.8.0",
+    "react-code-input": "^3.10.1",
+    "react-countdown": "^2.3.5",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.10.1",
+=======
     "react": "^18.2.0",
     "react-bootstrap": "^2.8.0",
     "react-code-input": "^3.10.1",
     "react-dom": "^18.2.0",
+>>>>>>> a834a4492b2b1e3e0585b4caad4f97eb9c22ca1e
     "react-redux": "^8.1.1",
     "react-router-dom": "^6.14.2",
     "redux": "^4.2.1",

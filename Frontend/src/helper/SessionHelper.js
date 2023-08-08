@@ -25,7 +25,11 @@ class SessionHelper{
     }
     removeSessions=()=>{
         localStorage.clear();
+<<<<<<< HEAD
+        window.location.href="/Login"
+=======
         window.location.href="/login"
+>>>>>>> a834a4492b2b1e3e0585b4caad4f97eb9c22ca1e
     }
 }
 export const {setEmail,getEmail,setOTP,getOTP,setToken,getToken,setUserDetails,getUserDetails,removeSessions}=new SessionHelper();

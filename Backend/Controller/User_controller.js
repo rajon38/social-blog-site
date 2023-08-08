@@ -12,7 +12,11 @@ require("dotenv").config();
 exports.registerController=async(req,res)=>{
     try {
         // 1. destructure name, email, password from req.body
+<<<<<<< HEAD
+        const{firstName,lastName,username,profile,phoneNumber,email,status,password}=req.body;
+=======
         const{firstName,lastName,username,profile,phoneNumber,email,password}=req.body;
+>>>>>>> a834a4492b2b1e3e0585b4caad4f97eb9c22ca1e
         // 2. all fields require validation
         if(!firstName.trim()){
             return res.send({message:"firststName is required"})
@@ -52,7 +56,11 @@ exports.registerController=async(req,res)=>{
         const hashedPassword=await hashPassword(password)
         // save
         const user=await new userModel({
+<<<<<<< HEAD
+            firstName,lastName,username,email,phoneNumber,profile,status,password:hashedPassword
+=======
             firstName,lastName,username,email,phoneNumber,profile,password:hashedPassword
+>>>>>>> a834a4492b2b1e3e0585b4caad4f97eb9c22ca1e
         }).save();
         res.status(201).send({
             success:true,
@@ -105,11 +113,25 @@ exports.loginController = async(req,res)=>{
         res.status(200).send({
             success:true,
             message:"login successful",
+<<<<<<< HEAD
+            data:{
+                email:user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                username: user.username,
+                phoneNumber: user.phoneNumber,
+                profile: user.profile,
+                status: user.status,
+                role:user.role,
+                Followers: user.Followers,
+                Following: user.Following
+=======
             user:{
                 name:user.name,
                 email:user.email,
 
                 role:user.role
+>>>>>>> a834a4492b2b1e3e0585b4caad4f97eb9c22ca1e
             },
             token
 
