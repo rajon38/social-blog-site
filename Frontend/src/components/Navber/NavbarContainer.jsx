@@ -81,7 +81,7 @@ const NavbarContainer = () => {
                                 Logout
                             </Nav.Link>
                         </Nav>
-                        <Form className="d-flex">
+                        <Form className="d-flex ">
                             <Form.Control
                                 type="search"
                                 placeholder="Search"
