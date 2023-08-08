@@ -113,7 +113,9 @@ exports.loginController = async(req,res)=>{
                 phoneNumber: user.phoneNumber,
                 profile: user.profile,
                 status: user.status,
-                role:user.role
+                role:user.role,
+                Followers: user.Followers,
+                Following: user.Following
             },
             token
 

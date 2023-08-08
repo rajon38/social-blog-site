@@ -28,13 +28,14 @@ const Profileleftbar = () => {
                         <div className="text-center">
                             {getUserDetails()['status']}
                         </div>
+                        <hr/>
                         <div className="followStatus">
                             <div className="follow">
-                                <span>{getUserDetails()[`Followers`]}</span>
-                                <span>Following</span>
+                                <span>{getUserDetails()[`Followers`].length}</span>
+                                <span>Followers</span>
                             </div>
                             <div className="follow">
-                                <span>{getUserDetails()[`Following`]}</span>
+                                <span>{getUserDetails()[`Following`].length}</span>
                                 <span>Following</span>
                             </div>
                         </div>
@@ -47,7 +48,6 @@ const Profileleftbar = () => {
                         <Modal
                             show={showModal}
                             onClose={handleModalClose}
-                            actionButton={<Button variant="success" onClick='/'>Save Changes</Button>}
                         />
                     )}
                 </Card.Body>
