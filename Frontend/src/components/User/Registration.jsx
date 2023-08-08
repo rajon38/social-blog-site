@@ -1,5 +1,9 @@
 import  {useRef} from 'react';
+<<<<<<< HEAD
 import {Link, useNavigate} from "react-router-dom";
+=======
+import {useNavigate} from "react-router-dom";
+>>>>>>> a834a4492b2b1e3e0585b4caad4f97eb9c22ca1e
 import {ErrorToast, IsEmail, IsEmpty, IsMobile} from "../../helper/FormHelper.js";
 import {RegistrationRequest} from "../../APIRequest/userAPI.js";
 
@@ -74,6 +78,7 @@ const Registration = () => {
                             <div className="row m-0  p-0">
                                 <div className="col-md-4 text-start p-2">
                                     <button onClick={onRegistration} className="btn w-100 mt-2 btn-success">Complete</button>
+<<<<<<< HEAD
                                     <div className="mt-3 ">
                                     <span>
                                         <Link className="text-center ms-3 h6" to="/Login">Already have an account</Link>
@@ -81,6 +86,8 @@ const Registration = () => {
                                         <Link className="text-center ms-3 h6" to="/Login">Sign In</Link>
                                     </span>
                                     </div>
+=======
+>>>>>>> a834a4492b2b1e3e0585b4caad4f97eb9c22ca1e
                                 </div>
                             </div>
                         </div>

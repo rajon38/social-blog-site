@@ -24,11 +24,14 @@ const userSchema  = new Schema({
         unique:true,
         require:true,
     },
+<<<<<<< HEAD
     status:{
         type: String,
         minLength: [6, "password must be up 6 creacters"],
         default: "New in here"
     },
+=======
+>>>>>>> a834a4492b2b1e3e0585b4caad4f97eb9c22ca1e
     email:{
         type: String,
         trim: true,

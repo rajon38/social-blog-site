@@ -1,6 +1,10 @@
 import {Fragment, useRef} from 'react';
 import {ErrorToast, IsEmpty} from "../../helper/FormHelper";
+<<<<<<< HEAD
 import {RecoverResetPassRequest} from "../../APIRequest/userAPI.js";
+=======
+import {RecoverResetPassRequest} from "../../APIRequest/UserAPI";
+>>>>>>> a834a4492b2b1e3e0585b4caad4f97eb9c22ca1e
 import {getEmail, getOTP} from "../../helper/SessionHelper";
 import {useNavigate} from "react-router-dom";
 const CreatePassword = () => {
