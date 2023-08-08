@@ -14,13 +14,14 @@ const Leftbar = () => {
                     <div className="text-center">
                         {getUserDetails()['status']}
                     </div>
+                    <hr/>
                     <div className="followStatus">
                                      <div className="follow">
-                                     <span>{getUserDetails()[`Followers.length`]}</span>
-                                     <span>Following</span>
+                                     <span>{getUserDetails()[`Followers`].length}</span>
+                                     <span>Followers</span>
                                      </div>
                                      <div className="follow">
-                                         <span>{getUserDetails()[`Following.length`]}</span>
+                                         <span>{getUserDetails()[`Following`].length}</span>
                                          <span>Following</span>
                                      </div>
                                  </div>

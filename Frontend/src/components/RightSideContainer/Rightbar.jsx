@@ -18,7 +18,7 @@ const Rightbar = () => {
         const getuser = async()=>{
             try {
                 store.dispatch(ShowLoader());
-                const res  = await axios.get(BaseURL + `/all/users/${id}`)
+                const res  = await axios.get(BaseURL + `/users/all/user/${id}`)
                 setUsers(res.data);
                 store.dispatch(HideLoader());
             } catch (error) {
