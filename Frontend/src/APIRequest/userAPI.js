@@ -89,28 +89,49 @@ export async function GetProfileDetails(){
 
 
 //ProfileUpdateRequest
-export async function ProfileUpdateRequest(firstName,lastName,profile,username,phoneNumber,email,password){
+export async function ProfileUpdateRequest(email, firstName, lastName, username, phoneNumber, password, profile, status) {
     try {
         store.dispatch(ShowLoader())
-        let URL = BaseURL + "/users/update";
-        let PostBody = {firstName:firstName,lastName:lastName,profile:profile,username:username,phoneNumber:phoneNumber,email:email,password:password}
-        let UserDetails ={firstName:firstName,lastName:lastName,profile:profile,username:username,phoneNumber:phoneNumber,email:email}
-        let res = await axios.post(URL,PostBody,AxiosHeader);
+        const URL = BaseURL + "/users/update";
+        const PostBody = {
+            firstName: firstName,
+            lastName: lastName,
+            profile: profile,
+            username: username,
+            phoneNumber: phoneNumber,
+            email: email,
+            password: password,
+            status: status // Include the status field in the request body
+        };
+        const UserDetails = {
+            firstName: firstName,
+            lastName: lastName,
+            profile: profile,
+            username: username,
+            phoneNumber: phoneNumber,
+            email: email,
+            status: status
+        };
+
+        const res = await axios.post(URL, PostBody, { AxiosHeader });
         store.dispatch(HideLoader())
-        if (res.status === 200){
+
+        if (res.status === 200) {
             SuccessToast("Profile Update Success");
-            setUserDetails(UserDetails);
+            setUserDetails(UserDetails); // Make sure you have setUserDetails defined in your component
             return true;
-        }else {
+        } else {
             ErrorToast("Something Went Wrong")
-            return  false;
+            return false;
         }
-    }catch (e) {
+    } catch (error) {
+        console.error("Error updating profile:", error);
         ErrorToast("Something Went Wrong")
         store.dispatch(HideLoader())
         return false;
     }
 }
+
 
 
 //recoverVerifyEmail
@@ -205,3 +226,51 @@ export async function RecoverResetPassRequest(email,OTP,password){
         return false;
     }
 }
+
+//postUserDetails
+export function PostUserDetails(userId) {
+    store.dispatch(ShowLoader());
+
+    let URL = BaseURL + "users/post/user/details/" + userId;
+
+    return axios
+        .get(URL, AxiosHeader)
+        .then((res) => {
+            store.dispatch(HideLoader());
+            if (res.status === 200) {
+                return res.data; // Return the user details received from the response
+            } else {
+                ErrorToast("Something Went Wrong");
+                return null;
+            }
+        })
+        .catch((err) => {
+            ErrorToast("Something Went Wrong");
+            store.dispatch(HideLoader());
+            return null;
+        });
+}
+
+
+export async function getFollowingPosts(userId) {
+    try {
+        store.dispatch(ShowLoader());
+
+        let URL = BaseURL + "/users/flw/" + userId;
+
+        const res = await axios.get(URL, AxiosHeader);
+        store.dispatch(HideLoader());
+
+        if (res.status === 200) {
+            return res.data; // Return the posts received from the response
+        } else {
+            ErrorToast("Something Went Wrong");
+            return null;
+        }
+    } catch (err) {
+        ErrorToast("Something Went Wrong");
+        store.dispatch(HideLoader());
+        return null;
+    }
+}
+

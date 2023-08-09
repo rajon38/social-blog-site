@@ -8,55 +8,66 @@ import {getUserDetails} from "../../helper/SessionHelper.js";
 
 // eslint-disable-next-line react/prop-types
 const Modal = ({ show, onClose }) => {
-    let emailRef, firstNameRef, lastNameRef, usernameRef, phoneNumberRef, passwordRef, profileRef, userImgView = useRef();
-
-    useEffect(()=> {
-        (async ()=>{
-            await GetProfileDetails()
-        })();
-    },[])
-
     const ProfileData = getUserDetails();
+    const emailRef = useRef();
+    const firstNameRef = useRef();
+    const lastNameRef = useRef();
+    const usernameRef = useRef();
+    const phoneNumberRef = useRef();
+    const passwordRef = useRef();
+    const profileRef = useRef();
+    const userImgViewRef = useRef();
+    const statusRef = useRef(); // New ref for capturing status
 
-    let navigate = useNavigate();
+    useEffect(() => {
+        (async () => {
+            await GetProfileDetails();
+        })();
+    }, []);
 
-    const PreviewImage = () =>{
-        let ImgFile = profileRef.files[0];
-        getBase64(ImgFile).then((base64Img) =>{
-            userImgView.src = base64Img;
-        })
-    }
+    const navigate = useNavigate();
 
-    const UpdateMyProfile = async () =>{
-        let email = emailRef.value;
-        let firstName = firstNameRef.value;
-        let lastName = lastNameRef.value;
-        let username = usernameRef.value;
-        let phoneNumber = phoneNumberRef.value;
-        let password = passwordRef.value;
-        let profile = userImgView.src;
+    const PreviewImage = async () => {
+        const ImgFile = profileRef.current.files[0];
+        try {
+            const base64Img = await getBase64(ImgFile);
+            userImgViewRef.current.src = base64Img;
+        } catch (error) {
+            console.error("Error converting image to base64:", error);
+        }
+    };
 
+    const UpdateMyProfile = async () => {
+        const email = emailRef.current.value;
+        const firstName = firstNameRef.current.value;
+        const lastName = lastNameRef.current.value;
+        const username = usernameRef.current.value;
+        const phoneNumber = phoneNumberRef.current.value;
+        const password = passwordRef.current.value;
+        const profile = userImgViewRef.current.src;
+        const status = statusRef.current.value; // Get the status value from the ref
 
-        if (IsEmail(email)){
-            ErrorToast("valid Email Address Required!")
-        }else if (IsEmpty(firstName)){
-            ErrorToast("First Name Required !")
+        if (IsEmail(email)) {
+            ErrorToast("Valid Email Address Required!");
+        } else if (IsEmpty(firstName)) {
+            ErrorToast("First Name Required!");
         } else if (IsEmpty(lastName)) {
-            ErrorToast("Last Name Required !")
+            ErrorToast("Last Name Required!");
         } else if (IsEmpty(username)) {
-            ErrorToast("username Required !")
-        } else if (!IsMobile(phoneNumber)) {
-            ErrorToast("Valid Mobile  Required !")
+            ErrorToast("Username Required!");
+        } else if (IsEmpty(status)) {
+            ErrorToast("status Required!");
         } else if (IsEmpty(password)) {
-            ErrorToast("Password Required !")
-        }else{
-            let result = await ProfileUpdateRequest(email, firstName, lastName, phoneNumber, password, profile)
-            if (result === true){
-                navigate("/")
+            ErrorToast("Password Required!");
+        } else if (!IsMobile(phoneNumber)) {
+            ErrorToast("Valid Mobile Number Required!");
+        } else {
+            const result = await ProfileUpdateRequest(email, firstName, lastName, username, phoneNumber, password, profile, status);
+            if (result === true) {
+                navigate("/Profile");
             }
         }
-
-    }
+    };
     return (
         <BootstrapModal show={show} onHide={onClose} size="xl">
             <BootstrapModal.Header closeButton>
@@ -65,36 +76,40 @@ const Modal = ({ show, onClose }) => {
             <BootstrapModal.Body>
 
                 <div className="container-fluid">
-                    <img ref={(input)=>userImgView=input}  style={{height:'5rem', width: '5rem'}} src={ProfileData['profile']} alt=""/>
+                    <img ref={userImgViewRef}  style={{height:'5rem', width: '5rem'}} src={ProfileData.profile} alt=""/>
                     <hr/>
                     <div className="row">
                         <div className="col-4 p-2">
                             <label>Profile Picture</label>
-                            <input onChange={PreviewImage} ref={(input)=>profileRef=input} placeholder="User Email" className="form-control animated fadeInUp" type="file"/>
+                            <input onChange={PreviewImage} ref={profileRef} placeholder="User profile" className="form-control animated fadeInUp" type="file"/>
                         </div>
                         <div className="col-4 p-2">
                             <label>Email Address</label>
-                            <input key={Date.now()} defaultValue={ProfileData['email']} readOnly={true}  ref={(input)=>emailRef=input} placeholder="User Email" className="form-control animated fadeInUp" type="email"/>
+                            <input key={Date.now()} defaultValue={ProfileData.email} readOnly={true}  ref={emailRef} placeholder="User Email" className="form-control animated fadeInUp" type="email"/>
                         </div>
                         <div className="col-4 p-2">
                             <label>First Name</label>
-                            <input  key={Date.now()} defaultValue={ProfileData['firstName']} ref={(input)=>firstNameRef=input} placeholder="First Name" className="form-control animated fadeInUp" type="text"/>
+                            <input  key={Date.now()} defaultValue={ProfileData.firstName} ref={firstNameRef} placeholder="First Name" className="form-control animated fadeInUp" type="text"/>
                         </div>
                         <div className="col-4 p-2">
                             <label>Last Name</label>
-                            <input key={Date.now()} defaultValue={ProfileData['lastName']}  ref={(input)=>lastNameRef=input} placeholder="Last Name" className="form-control animated fadeInUp" type="text"/>
+                            <input key={Date.now()} defaultValue={ProfileData.lastName}   ref={lastNameRef} placeholder="Last Name" className="form-control animated fadeInUp" type="text"/>
                         </div>
                         <div className="col-4 p-2">
                             <label>username</label>
-                            <input key={Date.now()} defaultValue={ProfileData['username']} readOnly={true}  ref={(input)=>usernameRef=input} placeholder="username" className="form-control animated fadeInUp" type="text"/>
+                            <input key={Date.now()} defaultValue={ProfileData.username}  ref={usernameRef} placeholder="username" className="form-control animated fadeInUp" type="text"/>
+                        </div>
+                        <div className="col-4 p-2">
+                            <label>Status</label>
+                            <input key={Date.now()} defaultValue={ProfileData.status}  ref={statusRef} placeholder="status" className="form-control animated fadeInUp" type="text"/>
                         </div>
                         <div className="col-4 p-2">
                             <label>Mobile</label>
-                            <input key={Date.now()} defaultValue={ProfileData['phoneNumber']} ref={(input)=>phoneNumberRef=input} placeholder="Phone Number" className="form-control animated fadeInUp" type="mobile"/>
+                            <input key={Date.now()} defaultValue={ProfileData.phoneNumber} ref={phoneNumberRef} placeholder="Phone Number" className="form-control animated fadeInUp" type="mobile"/>
                         </div>
                         <div className="col-4 p-2">
                             <label>Password</label>
-                            <input key={Date.now()} defaultValue={ProfileData['password']}  ref={(input)=>passwordRef=input} placeholder="User Password" className="form-control animated fadeInUp" type="password"/>
+                            <input key={Date.now()} defaultValue={ProfileData.password}  ref={passwordRef} placeholder="User Password" className="form-control animated fadeInUp" type="password"/>
                         </div>
                     </div>
                 </div>

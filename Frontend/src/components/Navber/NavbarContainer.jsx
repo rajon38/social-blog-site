@@ -5,17 +5,20 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import {getUserDetails,removeSessions} from "../../helper/SessionHelper.js";
+import "./navbar.css"
+import { getUserDetails, removeSessions } from "../../helper/SessionHelper.js";
+
+import { GrNotification } from "react-icons/gr"
 
 const NavbarContainer = () => {
-    const onLogout=()=>{
-         removeSessions();
-     }
+    const onLogout = () => {
+        removeSessions();
+    }
     return (
         <div>
             <Navbar expand="lg" className="bg-body-tertiary fixed">
                 <Container fluid>
-                    <Navbar.Brand href="#">Journal Wheel</Navbar.Brand>
+                    <Navbar.Brand href="#" > <h5 className='Journal_Wheel'>Journal Wheel</h5> </Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav
@@ -23,30 +26,42 @@ const NavbarContainer = () => {
                             style={{ maxHeight: '100px' }}
                             navbarScroll
                         >
-                            <Nav.Link href="/">Home</Nav.Link>
-                            <Nav.Link href="/Profile">{getUserDetails()['username']}</Nav.Link>
-                            <NavDropdown title={getUserDetails()['username']} id="navbarScrollingDropdown">
-                                <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                                <NavDropdown.Item href="#action4">
-                                    Logout
-                                </NavDropdown.Item>
-                                <NavDropdown.Item href="#action5">
-                                    Something else here
-                                </NavDropdown.Item>
-                            </NavDropdown>
+                            <div id="from">
+                                <Form className="d-flex" >
+                                    <Form.Control
+                                        type="search"
+                                        placeholder="Search"
+                                        className="me-2 center"
+                                        aria-label="Search"
+                                        style={{margin:"13px"}}
+                                    />
+                                    <Button variant="outline-success mt-2">Search</Button>
+                                </Form>
+                            </div>
+
+                        </Nav>
+
+
+                        <Nav.Link href="/">Home</Nav.Link>
+                        <NavDropdown title={getUserDetails()['username']} id="navbarScrollingDropdown">
+                            <Nav.Link href="/Profile" onClick="">
+                                Profile
+                            </Nav.Link>
                             <Nav.Link href="/" onClick={onLogout}>
                                 Logout
                             </Nav.Link>
-                        </Nav>
-                        <Form className="d-flex ">
-                            <Form.Control
-                                type="search"
-                                placeholder="Search"
-                                className="me-2"
-                                aria-label="Search"
-                            />
-                            <Button variant="outline-success mt-2">Search</Button>
-                        </Form>
+
+
+                        </NavDropdown>
+
+                        <Nav.Link href="/" onClick="">
+                            < GrNotification />
+                        </Nav.Link>
+
+                        {/* <Nav.Link href="/" onClick={onLogout}>
+                            Logout
+                        </Nav.Link> */}
+
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

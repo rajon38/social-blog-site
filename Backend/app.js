@@ -18,8 +18,12 @@ const blogRouter = require("./Routes/BlogRouter");
 app.use(morgan('dev'))
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(helmet()); 
-app.use(cors()); 
+app.use(helmet());
+app.use(cors({
+  origin: 'http://localhost:5173', // Replace with your frontend's URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify the allowed HTTP methods
+  credentials: true // Allow sending cookies and other credentials
+}));
 app.use(hpp());
 
 
