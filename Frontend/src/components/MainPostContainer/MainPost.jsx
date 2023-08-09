@@ -1,20 +1,41 @@
-import "./mainPost.css"
-import ContentPost from "../ContentPostContainer/ContentPost"
-// import Post from '../PostContainer/Post';
-// import { useEffect } from 'react';
-// import axios from 'axios';
-// import { useState } from 'react';
-// import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import "./mainPost.css";
+import ContentPost from "../ContentPostContainer/ContentPost";
+import Post from '../PostContainer/Post';
+import { useSelector } from 'react-redux';
+import { getFollowingPosts } from "../../APIRequest/userAPI.js";
 
-const MainPost = () => {
+export default function MainPost() {
+    const userDetails = useSelector((state) => state.profile.value); // Access the 'value' property from the 'profile' state
+    const user = userDetails; // No need to use userDetails.profile as it's already the profile object
+    const userId = user?.other?._id; // Access the userId directly
+
+    const [post, setPost] = useState([]);
+
+    useEffect(() => {
+        console.log("UserId:", userId);
+        const fetchPosts = async () => {
+            try {
+                const posts = await getFollowingPosts(userId);
+                if (posts) {
+                    setPost(posts);
+                }
+            } catch (error) {
+                console.error('Error fetching posts:', error);
+            }
+        };
+
+        if (userId) {
+            fetchPosts();
+        }
+    }, [userId]);
+
     return (
         <div className='mainPostContainer'>
-            <ContentPost/>
-            {/* {post.map((item)=>(
-          <Post post={item}/>
-      ))} */}
+            <ContentPost />
+            {post.map((item) => (
+                <Post key={item._id} post={item} />
+            ))}
         </div>
     );
-};
-
-export default MainPost;
+}
