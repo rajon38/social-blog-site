@@ -110,10 +110,11 @@ export async function ProfileUpdateRequest(email, firstName, lastName, username,
             username: username,
             phoneNumber: phoneNumber,
             email: email,
-            status: status
+            status: status,
+            password:password
         };
 
-        const res = await axios.post(URL, PostBody, { AxiosHeader });
+        const res = await axios.post(URL, PostBody,  AxiosHeader );
         store.dispatch(HideLoader())
 
         if (res.status === 200) {
