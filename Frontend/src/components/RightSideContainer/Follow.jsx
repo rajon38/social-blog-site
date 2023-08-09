@@ -8,8 +8,8 @@ import { BaseURL } from '../../helper/config.js';
 
 // eslint-disable-next-line react/prop-types
 export default function Follow({ userdetails }) {
-    const userDetails = useSelector((state) => state.user);
-    let user = userDetails?.user;
+    const userDetails = useSelector((state) => state.profile);
+    let user = userDetails?.profile;
     let id = user?.other?._id;
     const accessToken = getToken();
     const [Follow, setFollow] = useState(addFriends);

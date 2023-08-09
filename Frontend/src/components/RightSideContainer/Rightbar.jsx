@@ -9,8 +9,8 @@ import { ErrorToast } from "../../helper/FormHelper.js";
 import Follow from "./Follow.jsx";
 
 const Rightbar = () => {
-    const userDetails = useSelector((state) => state.user);
-    let user = userDetails?.user;
+    const userDetails = useSelector((state) => state.profile);
+    let user = userDetails?.profile;
     const id = user?.other?._id;
     const [users, setUsers] = useState([]);
 
