@@ -10,11 +10,11 @@ const AxiosHeader = {headers:{"token":getToken()}}
 
 
 //registration API
-export async function RegistrationRequest(firstName,lastName,profile,username,phoneNumber,email,password){
+export async function RegistrationRequest(firstName,lastName,profile,username,status,phoneNumber,email,password){
     try {
         store.dispatch(ShowLoader())
         let URL = BaseURL + "/users/register"
-        let PostBody = {firstName:firstName,lastName:lastName,profile:profile,username:username,phoneNumber:phoneNumber,email:email,password:password}
+        let PostBody = {firstName:firstName,lastName:lastName,profile:profile,username:username,status:status,phoneNumber:phoneNumber,email:email,password:password}
         let res = await axios.post(URL,PostBody)
         store.dispatch(HideLoader());
         if (res.status === 200){
