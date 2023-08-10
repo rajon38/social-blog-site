@@ -10,11 +10,11 @@ const AxiosHeader = {headers:{"token":getToken()}}
 
 
 //registration API
-export async function RegistrationRequest(firstName,lastName,profile,username,phoneNumber,email,password){
+export async function RegistrationRequest(firstName,lastName,profile,username,status,phoneNumber,email,password){
     try {
         store.dispatch(ShowLoader())
         let URL = BaseURL + "/users/register"
-        let PostBody = {firstName:firstName,lastName:lastName,profile:profile,username:username,phoneNumber:phoneNumber,email:email,password:password}
+        let PostBody = {firstName:firstName,lastName:lastName,profile:profile,username:username,status:status,phoneNumber:phoneNumber,email:email,password:password}
         let res = await axios.post(URL,PostBody)
         store.dispatch(HideLoader());
         if (res.status === 200){
@@ -54,6 +54,7 @@ export async function LoginRequest(email,password){
         let res =await axios.post(URL,PostBody);
         setToken(res.data['token']);
         setUserDetails(res.data['data']);
+        store.dispatch(SetProfile(res.data['data']))
         SuccessToast("Login Success");
         store.dispatch(HideLoader())
         return true;
@@ -89,28 +90,50 @@ export async function GetProfileDetails(){
 
 
 //ProfileUpdateRequest
-export async function ProfileUpdateRequest(firstName,lastName,profile,username,phoneNumber,email,password){
+export async function ProfileUpdateRequest(email, firstName, lastName, username, phoneNumber, password, profile, status) {
     try {
         store.dispatch(ShowLoader())
-        let URL = BaseURL + "/users/update";
-        let PostBody = {firstName:firstName,lastName:lastName,profile:profile,username:username,phoneNumber:phoneNumber,email:email,password:password}
-        let UserDetails ={firstName:firstName,lastName:lastName,profile:profile,username:username,phoneNumber:phoneNumber,email:email}
-        let res = await axios.post(URL,PostBody,AxiosHeader);
+        const URL = BaseURL + "/users/update";
+        const PostBody = {
+            firstName: firstName,
+            lastName: lastName,
+            profile: profile,
+            username: username,
+            phoneNumber: phoneNumber,
+            email: email,
+            password: password,
+            status: status // Include the status field in the request body
+        };
+        // const UserDetails = {
+        //     firstName: firstName,
+        //     lastName: lastName,
+        //     profile: profile,
+        //     username: username,
+        //     phoneNumber: phoneNumber,
+        //     email: email,
+        //     status: status,
+        //     password:password
+        // };
+
+        const res = await axios.post(URL, PostBody,  AxiosHeader );
         store.dispatch(HideLoader())
-        if (res.status === 200){
+
+        if (res.status === 200) {
             SuccessToast("Profile Update Success");
-            setUserDetails(UserDetails);
+            setUserDetails(res.data['data']); // Make sure you have setUserDetails defined in your component
             return true;
-        }else {
+        } else {
             ErrorToast("Something Went Wrong")
-            return  false;
+            return false;
         }
-    }catch (e) {
+    } catch (error) {
+        console.error("Error updating profile:", error);
         ErrorToast("Something Went Wrong")
         store.dispatch(HideLoader())
         return false;
     }
 }
+
 
 
 //recoverVerifyEmail
@@ -206,28 +229,51 @@ export async function RecoverResetPassRequest(email,OTP,password){
     }
 }
 
-export function CreateNewBlog(title,author,description,date,image){
 
+//postUserDetails
+export function PostUserDetails(userId) {
+    store.dispatch(ShowLoader());
 
-    store.dispatch(ShowLoader())
+    let URL = BaseURL + "users/post/user/details/" + userId;
 
-    let URL=BaseURL+"/blogs/create-blog";
-    let PostBody={"title":title,"author":author,"description":description,"image":image,"date":date}
-
-    return axios.post(URL,PostBody,AxiosHeader).then((res)=>{
-        store.dispatch(HideLoader())
-        if(res.status===200){
-            SuccessToast("Blog post created successfully")
-            return true;
-        }
-        else{
-            ErrorToast("Something Went Wrong")
-            return false;
-        }
-
-    }).catch((err)=>{
-        ErrorToast("Something Went Wrong")
-        store.dispatch(HideLoader())
-        return false;
-    })
+    return axios
+        .get(URL, AxiosHeader)
+        .then((res) => {
+            store.dispatch(HideLoader());
+            if (res.status === 200) {
+                return res.data; // Return the user details received from the response
+            } else {
+                ErrorToast("Something Went Wrong");
+                return null;
+            }
+        })
+        .catch((err) => {
+            ErrorToast("Something Went Wrong");
+            store.dispatch(HideLoader());
+            return null;
+        });
 }
+
+
+export async function getFollowingPosts(userId) {
+    try {
+        store.dispatch(ShowLoader());
+
+        let URL = BaseURL + "/users/flw/" + userId;
+
+        const res = await axios.get(URL, AxiosHeader);
+        store.dispatch(HideLoader());
+
+        if (res.status === 200) {
+            return res.data; // Return the posts received from the response
+        } else {
+            ErrorToast("Something Went Wrong");
+            return null;
+        }
+    } catch (err) {
+        ErrorToast("Something Went Wrong");
+        store.dispatch(HideLoader());
+        return null;
+    }
+}
+

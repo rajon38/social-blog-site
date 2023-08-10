@@ -101,3 +101,80 @@ export function GetFollowers(blogId) {
             return false;
         });
 }
+
+
+
+
+
+// Like a post
+export function likePost(postId) {
+    return axios
+        .put(BaseURL+`//blogs/${postId}/like`, null, AxiosHeader)
+        .then((res) => {
+            if (res.status === 200) {
+                return res.data; // Return the response data if needed
+            } else {
+                throw new Error('Failed to like post');
+            }
+        })
+        .catch((error) => {
+            console.error('Error liking post:', error);
+            throw error;
+        });
+}
+
+// Dislike a post
+export function dislikePost(postId) {
+    return axios
+        .put(BaseURL+ `/blogs/${postId}/dislike`, null, AxiosHeader)
+        .then((res) => {
+            if (res.status === 200) {
+                return res.data; // Return the response data if needed
+            } else {
+                throw new Error('Failed to dislike post');
+            }
+        })
+        .catch((error) => {
+            console.error('Error disliking post:', error);
+            throw error;
+        });
+}
+
+// Comment on a post
+export function commentOnPost(postId, comment) {
+    const requestBody = { comment };
+
+    return axios
+        .post(BaseURL+`/blogs/${postId}/comment/post`, requestBody, AxiosHeader)
+        .then((res) => {
+            if (res.status === 200) {
+                return res.data; // Return the updated post data if needed
+            } else {
+                throw new Error('Failed to comment on post');
+            }
+        })
+        .catch((error) => {
+            console.error('Error commenting on post:', error);
+            throw error;
+        });
+}
+
+
+export function deletePost(postId) {
+    return axios
+        .get(BaseURL+`/blogs/delete-blogs/${postId}`, AxiosHeader)  // Assuming you have a route for deleting posts like this
+        .then((res) => {
+            if (res.status === 200) {
+                return true; // Return true to indicate successful deletion
+            } else {
+                throw new Error('Failed to delete post');
+            }
+        })
+        .catch((error) => {
+            console.error('Error deleting post:', error);
+            throw error;
+        });
+}
+
+
+

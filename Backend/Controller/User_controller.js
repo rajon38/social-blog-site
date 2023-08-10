@@ -115,7 +115,8 @@ exports.loginController = async(req,res)=>{
                 status: user.status,
                 role:user.role,
                 Followers: user.Followers,
-                Following:user.Following  
+                Following:user.Following,
+                password: user.password  
             },
             token
 
@@ -133,18 +134,81 @@ exports.loginController = async(req,res)=>{
 
 
 //ProfileUpdate
+// exports.ProfileUpdate = async (req, res) => {
+//     try {
+//         // Assuming you're using the 'requireSignIn' middleware to populate 'req.user'
+//         const data = await userModel.updateOne({ _id: req.user._id },req.body);
+//         if (!data) {
+//             return res.status(404).json({ status: "fail", message: "User not found" });
+//         }
+//         return res.status(200).json({ status: "success", data: data });
+//     } catch (error) {
+//         return res.status(500).json({ status: "fail", message: "Error in fetching profile details", error: error.toString() });
+//     }
+// }
+
+// profile update controller
 exports.ProfileUpdate = async (req, res) => {
     try {
-        // Assuming you're using the 'requireSignIn' middleware to populate 'req.user'
-        const data = await userModel.updateOne({ _id: req.user._id },req.body);
-        if (!data) {
-            return res.status(404).json({ status: "fail", message: "User not found" });
+        const userId = req.user._id; // Assuming you have the user's ID from authentication
+
+        // Updateable fields from req.body
+        const { firstName, lastName, username, phoneNumber, profile, status, newPassword } = req.body;
+
+        // Find the user by ID
+        const user = await userModel.findById(userId);
+
+        if (!user) {
+            return res.status(404).send({
+                success: false,
+                message: "User not found"
+            });
         }
-        return res.status(200).json({ status: "success", data: data });
+
+        // Update profile information
+        user.firstName = firstName || user.firstName;
+        user.lastName = lastName || user.lastName;
+        user.username = username || user.username;
+        user.phoneNumber = phoneNumber || user.phoneNumber;
+        user.profile = profile || user.profile;
+        user.status = status || user.status;
+
+        // Update password if newPassword is provided
+        if (newPassword) {
+            const hashedPassword = await hashPassword(newPassword);
+            user.password = hashedPassword;
+        }
+
+        // Save the updated user
+        const updatedUser = await user.save();
+
+        res.status(200).send({
+            success: true,
+            message: "Profile updated successfully",
+            data: {
+                email: updatedUser.email,
+                firstName: updatedUser.firstName,
+                lastName: updatedUser.lastName,
+                username: updatedUser.username,
+                phoneNumber: updatedUser.phoneNumber,
+                profile: updatedUser.profile,
+                status: updatedUser.status,
+                role: updatedUser.role,
+                Followers: updatedUser.Followers,
+                Following: updatedUser.Following
+            }
+        });
+
     } catch (error) {
-        return res.status(500).json({ status: "fail", message: "Error in fetching profile details", error: error.toString() });
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: "Error updating profile",
+            error
+        });
     }
-}
+};
+
 
 
 //ProfileDetails
@@ -328,12 +392,25 @@ exports.FollowUser = async (req, res) => {
 
         let filteruser = await Promise.all(
             UserToFollow.map((item) => {
-                const {email, phonenumber, Followers, Following, password, ...others} = item._doc;
+                const {email, phoneNumber, Followers, Following, password, ...others} = item._doc;
                 return others
             })
         )
 
         res.status(200).json(filteruser)
+    } catch (error) {
+        return res.status(500).json("Internal server error")
+    }
+}
+
+exports.PostUserDetails = async(req , res)=>{
+    try {
+        const user = await userModel.findById(req.params.id);
+        if(!user){
+            return res.status(400).json("User not found")
+        }
+        const {email , password , phoneNumber , ...others}=user._doc;
+        res.status(200).json(others);
     } catch (error) {
         return res.status(500).json("Internal server error")
     }
