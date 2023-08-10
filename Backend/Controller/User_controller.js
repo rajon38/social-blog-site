@@ -12,7 +12,7 @@ require("dotenv").config();
 exports.registerController=async(req,res)=>{
     try {
         // 1. destructure name, email, password from req.body
-        const{firstName,lastName,username,profile,phoneNumber,email,password}=req.body;
+        const{firstName,lastName,username,profile,phoneNumber,email,status,password}=req.body;
         // 2. all fields require validation
         if(!firstName.trim()){
             return res.send({message:"firststName is required"})
@@ -52,7 +52,7 @@ exports.registerController=async(req,res)=>{
         const hashedPassword=await hashPassword(password)
         // save
         const user=await new userModel({
-            firstName,lastName,username,email,phoneNumber,profile,password:hashedPassword
+            firstName,lastName,username,email,phoneNumber,profile,status,password:hashedPassword
         }).save();
         res.status(201).send({
             success:true,
@@ -112,7 +112,10 @@ exports.loginController = async(req,res)=>{
                 username: user.username,
                 phoneNumber: user.phoneNumber,
                 profile: user.profile,
-                role:user.role
+                status: user.status,
+                role:user.role,
+                Followers: user.Followers,
+                Following:user.Following  
             },
             token
 
